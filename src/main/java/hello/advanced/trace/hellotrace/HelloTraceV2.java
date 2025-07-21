@@ -23,7 +23,8 @@ public class HelloTraceV2 {
     // V2 추가
     public TraceStatus beginSync(TraceId beforeTraceId, String message) {
 //        TraceId traceId = new TraceId();
-        TraceId nextId = beforeTraceId.createNextId();
+//        TraceId nextId = beforeTraceId.createNextId();
+        TraceId nextId = beforeTraceId == null ? new TraceId() : beforeTraceId.createNextId();
         Long startTimeMs = System.currentTimeMillis();
         log.info("[{}] {}{}", nextId.getId(), addSpace(START_PREFIX, nextId.getLevel()), message);
         return new TraceStatus(nextId, startTimeMs, message);
