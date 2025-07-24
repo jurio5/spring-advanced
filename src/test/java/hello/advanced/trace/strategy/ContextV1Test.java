@@ -38,7 +38,7 @@ public class ContextV1Test {
      * 전략 패턴 사용
      */
     @Test
-    void strategy() {
+    void strategyV1() {
         Strategy strategyLogic1 = new StrategyLogic1();
         ContextV1 contextV1 = new ContextV1(strategyLogic1);
         contextV1.execute();
@@ -46,5 +46,62 @@ public class ContextV1Test {
         Strategy strategyLogic2 = new StrategyLogic2();
         ContextV1 contextV2 = new ContextV1(strategyLogic2);
         contextV2.execute();
+    }
+
+    @Test
+    void strategyV2() {
+        Strategy strategyLogic1 = new Strategy() {
+
+            @Override
+            public void call() {
+                log.info("비즈니스 로직1 실행");
+            }
+        };
+        ContextV1 contextV1 = new ContextV1(strategyLogic1);
+        contextV1.execute();
+
+        Strategy strategyLogic2 = new Strategy() {
+
+            @Override
+            public void call() {
+                log.info("비즈니스 로직2 실행");
+            }
+        };
+        ContextV1 contextV2 = new ContextV1(strategyLogic2);
+        contextV2.execute();
+    }
+
+    @Test
+    void strategyV3() {
+        ContextV1 contextV1 = new ContextV1(new Strategy() {
+            @Override
+            public void call() {
+                log.info("비즈니스 로직1 실행");
+            }
+        });
+        contextV1.execute();
+
+        ContextV1 contextV2 = new ContextV1(new Strategy() {
+            @Override
+            public void call() {
+                log.info("비즈니스 로직2 실행");
+            }
+        });
+        contextV2.execute();
+    }
+
+    @Test
+    void strategyV4() {
+        ContextV1 contextV1 = new ContextV1(() -> log.info("비즈니스 로직1 실행"));
+        contextV1.execute();
+
+        ContextV1 contextV2 = new ContextV1(() -> log.info("비즈니스 로직2 실행"));
+        contextV2.execute();
+    }
+
+    @Test
+    void strategyV5() {
+        new ContextV1(() -> log.info("비즈니스 로직1 실행")).execute();
+        new ContextV1(() -> log.info("비즈니스 로직2 실행")).execute();
     }
 }
